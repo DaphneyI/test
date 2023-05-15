@@ -1,5 +1,6 @@
 name: build-and-push-docker-images
 on: 
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
@@ -39,7 +40,6 @@ jobs:
 
       # not required if running on a selfhosted runner on a google vm with service accounts
       - id: 'auth'
-        # if: ${{ !contains(jobs.simple_test.runs-on, 'self-hosted' }}
         name: 'Authenticate to Google Cloud'
         if: github.event_name != 'pull_request'
         uses: 'google-github-actions/auth@v1'
