@@ -5,6 +5,9 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  release:
+    types: [published]
+
 
 env: 
   REGISTRY: us-central1-docker.pkg.dev
@@ -73,7 +76,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ${{ env.CONTEXT }}
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ contains(fromJSON('["push", "release"]'), github.event.name) }}
           tags: ${{ steps.meta.outputs.tags }}-0.0.${{github.run_id }}
           file: ${{ env.DOCKERFILE }}
 
