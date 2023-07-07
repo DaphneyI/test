@@ -84,9 +84,9 @@ jobs:
         id: plan
         shell: bash
         env:
-          test: ${{ contains(fromJSON('["push", "release"]'), github.event.name) }}
-          hello: ${{github.event.type}}
-          hello2: ${{github.event.name}}
+          test: ${{ contains(fromJSON('["push", "release"]'), github.event_name) }}
+          hello: ${{github.event_type}}
+          hello2: ${{github.event_name}}
         run: |
           echo $test
           echo $hello
