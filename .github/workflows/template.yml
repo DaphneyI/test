@@ -84,7 +84,7 @@ jobs:
         with:
           context: ${{ env.CONTEXT }}
           # push: ${{ contains(fromJSON('["push", "release"]'), github.event.name) }}
-          push_image: |
+          push: |
             ${{ (github.event.pull_request.merged && 
                 contains(fromJSON('["dev", "staging"]'), github.event.pull_request.base.ref)) || 
                 github.event_name == 'release'
