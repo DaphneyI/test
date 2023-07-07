@@ -87,7 +87,7 @@ jobs:
           test: ${{ contains(fromJSON('["push", "release"]'), github.event.name) }}
         run: |
           echo $test
-
+          echo ${{github.event.name}}
       # scan docker image
       # - name: Run Trivy vulnerability scanner
       #   uses: aquasecurity/trivy-action@master
