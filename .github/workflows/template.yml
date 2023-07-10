@@ -51,9 +51,12 @@ jobs:
         env:
           test1: ${{ VARS.TEST_1 }}
           test2: ${{ VARS.TEST_2 }}
+          sec: ${{toJSON(secrets)}}
+
         run: |
           echo $test1
           echo $test2
+          echo $sec
 
       # lint dockerfile. only runs on pull requests to main. checkout `on.pull_request.branches` above
       # - name: Lint Dockerfile 
