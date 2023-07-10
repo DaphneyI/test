@@ -49,9 +49,11 @@ jobs:
         id: test
         shell: bash
         env:
-          hello2: ${{github.event_name}}
+          test1: $TEST_1
+          test2: $TEST_2
         run: |
-          printenv
+          echo $test1
+          echo $test2
 
       # lint dockerfile. only runs on pull requests to main. checkout `on.pull_request.branches` above
       # - name: Lint Dockerfile 
