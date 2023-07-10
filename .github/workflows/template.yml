@@ -31,7 +31,7 @@ jobs:
     # if this is the only value in the list, then the job can run on any of your self hosted runners. 
     # to run this job on a specific runner, apply a label to the runner and include that label in the list ie runs-on:["self-hosted", "<one or more runnerlabel>"]
     runs-on: ubuntu-latest
-    environment: ${{github.base_ref}}
+    environment: dev
     steps:
       # the first step must always be to checkout our code. for this we a using version3 of the checkout action 
       - name: Checkout repository
