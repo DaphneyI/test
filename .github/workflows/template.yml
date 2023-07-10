@@ -46,6 +46,11 @@ jobs:
         shell: bash
         run: |
            ls .
+
+      - name: cat
+        shell: bash
+        run: |
+           cat ./.env
            
 
       - name: Terraform Apply
