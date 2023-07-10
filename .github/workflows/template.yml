@@ -51,7 +51,7 @@ jobs:
         env:
           hello2: ${{github.event_name}}
         run: |
-          printenv | grep -i test
+          printenv
 
       # lint dockerfile. only runs on pull requests to main. checkout `on.pull_request.branches` above
       # - name: Lint Dockerfile 
