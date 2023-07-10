@@ -37,6 +37,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Add env
+        shell: bash
+        run: |
+           echo "${{ secrets[ENV] }}" > ./.env
+           
+      - name:   List
+        shell: bash
+        run: |
+           ls .
+           
+
       - name: Terraform Apply
         id: plan
         shell: bash
