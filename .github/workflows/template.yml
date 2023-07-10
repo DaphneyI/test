@@ -73,7 +73,7 @@ jobs:
           echo $test1
           echo $test2
           echo $sec
-          
+
       - name: Test condition
         shell: bash
         env:
@@ -82,7 +82,7 @@ jobs:
           sec: ${{toJSON(secrets)}}
 
         run: |
-          export me="${{ (github.event.pull_request.merged && contains(fromJSON('["dev", "staging"]'), github.event.pull_request.base.ref)) || github.event_name == 'release'}}
+          export me="${{ (github.event.pull_request.merged && contains(fromJSON('["dev", "staging"]'), github.event.pull_request.base.ref)) || github.event_name == 'release'}}"
           echo $me
 
       # lint dockerfile. only runs on pull requests to main. checkout `on.pull_request.branches` above
