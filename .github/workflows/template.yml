@@ -31,6 +31,7 @@ jobs:
     # if this is the only value in the list, then the job can run on any of your self hosted runners. 
     # to run this job on a specific runner, apply a label to the runner and include that label in the list ie runs-on:["self-hosted", "<one or more runnerlabel>"]
     runs-on: ubuntu-latest
+    environment: ${{github.base_ref}}
     steps:
       # the first step must always be to checkout our code. for this we a using version3 of the checkout action 
       - name: Checkout repository
@@ -44,6 +45,14 @@ jobs:
         run: |
           echo $hello2
 
+      - name: Test env
+        id: test
+        shell: bash
+        env:
+          hello2: ${{github.event_name}}
+        run: |
+          printenv | grep -i test
+
       # lint dockerfile. only runs on pull requests to main. checkout `on.pull_request.branches` above
       # - name: Lint Dockerfile 
       #   uses: hadolint/hadolint-action@v3.1.0
@@ -52,48 +61,48 @@ jobs:
       #     dockerfile: ${{ env.CONTEXT }}/${{ env.DOCKERFILE }}
 
       # not required if running on a selfhosted runner on a google vm with service accounts
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        # if: github.event_name != 'pull_request'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          token_format: 'access_token'
-          workload_identity_provider: 'projects/451434782465/locations/global/workloadIdentityPools/poc-apex/providers/playd'
-          service_account: 'wif-poc@kubernetes-blueprints-preprod.iam.gserviceaccount.com'
+      # - id: 'auth'
+      #   name: 'Authenticate to Google Cloud'
+      #   # if: github.event_name != 'pull_request'
+      #   uses: 'google-github-actions/auth@v1'
+      #   with:
+      #     token_format: 'access_token'
+      #     workload_identity_provider: 'projects/451434782465/locations/global/workloadIdentityPools/poc-apex/providers/playd'
+      #     service_account: 'wif-poc@kubernetes-blueprints-preprod.iam.gserviceaccount.com'
       
       # login to artifact registy. only runs on push to main. ie when an mr is merged into main.
       # checkout `on.push.branches` above
-      - name: Login to GAR
-        uses: docker/login-action@v2
-        # if: github.event_name != 'pull_request'
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
+      # - name: Login to GAR
+      #   uses: docker/login-action@v2
+      #   # if: github.event_name != 'pull_request'
+      #   with:
+      #     registry: ${{ env.REGISTRY }}
+      #     username: oauth2accesstoken
+      #     password: ${{ steps.auth.outputs.access_token }}
       
     #  https://github.com/docker/metadata-action.
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}
+      # - name: Extract Docker metadata
+      #   id: meta
+      #   uses: docker/metadata-action@v4
+      #   with:
+      #     images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}
 
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ env.CONTEXT }}
-          # push: ${{ contains(fromJSON('["push", "release"]'), github.event.name) }}
-          push: |
-            ${{ (github.event.pull_request.merged && 
-                contains(fromJSON('["dev", "staging"]'), github.event.pull_request.base.ref)) || 
-                github.event_name == 'release'
-              }}
-          tags: ${{ steps.meta.outputs.tags }}0.0.${{github.run_id }}
-          file: ${{ env.DOCKERFILE }}
+      # - name: Build and push Docker image
+      #   id: build-and-push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: ${{ env.CONTEXT }}
+      #     # push: ${{ contains(fromJSON('["push", "release"]'), github.event.name) }}
+      #     push: |
+      #       ${{ (github.event.pull_request.merged && 
+      #           contains(fromJSON('["dev", "staging"]'), github.event.pull_request.base.ref)) || 
+      #           github.event_name == 'release'
+      #         }}
+      #     tags: ${{ steps.meta.outputs.tags }}0.0.${{github.run_id }}
+      #     file: ${{ env.DOCKERFILE }}
 
       
       # scan docker image
@@ -107,3 +116,4 @@ jobs:
       #     ignore-unfixed: true
       #     vuln-type: 'os,library'
       #     severity: 'CRITICAL,HIGH'
+
