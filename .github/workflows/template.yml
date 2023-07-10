@@ -40,7 +40,7 @@ jobs:
       - name: Add env
         shell: bash
         run: |
-           echo "${{ secrets[ENV] }}" > ./.env
+           echo "${{ secrets.ENV }}" > ./.env
            
       - name:   List
         shell: bash
