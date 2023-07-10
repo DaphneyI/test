@@ -49,8 +49,8 @@ jobs:
         id: test
         shell: bash
         env:
-          test1: $TEST_1
-          test2: $TEST_2
+          test1: ${{ VARS.TEST_1 }}
+          test2: ${{ VARS.TEST_2 }}
         run: |
           echo $test1
           echo $test2
