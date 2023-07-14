@@ -106,13 +106,13 @@ jobs:
       
       # login to artifact registy. only runs on push to main. ie when an mr is merged into main.
       # checkout `on.push.branches` above
-      - name: Login to GAR
-        uses: docker/login-action@v2
-        # if: github.event_name != 'pull_request'
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
+      # - name: Login to GAR
+      #   uses: docker/login-action@v2
+      #   # if: github.event_name != 'pull_request'
+      #   with:
+      #     registry: ${{ env.REGISTRY }}
+      #     username: oauth2accesstoken
+      #     password: ${{ steps.auth.outputs.access_token }}
       
     #  https://github.com/docker/metadata-action.
       # - name: Extract Docker metadata
