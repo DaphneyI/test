@@ -61,6 +61,7 @@ jobs:
           hello1: ${{contains(fromJSON('["", "main"]'), github.base_ref)}}
         run: |
           echo $hello2
+          echo $hello1
 
       # - name: Test env
       #   id: test
