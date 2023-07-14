@@ -59,7 +59,7 @@ jobs:
         env:
           hello2: ${{github.event_name}}
           runner_name: ${{contains(fromJSON('["", "main"]'), github.base_ref) && 'production' || github.base_ref }}
-          runner_sring: ${{ format('["self-hosted", "linux", "x64", {0}]',"(contains(fromJSON('[\"\", \"main\"]'), github.base_ref) && 'production' || github.base_ref))"}}
+          runner_sring: ${{ format('["self-hosted", "linux", "x64", {0}]', contains(fromJSON('[\"\", \"main\"]'), github.base_ref) && 'production' || github.base_ref)}}
         run: |
           echo $hello2
           echo $runner_name
