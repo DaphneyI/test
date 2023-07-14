@@ -58,10 +58,10 @@ jobs:
         shell: bash
         env:
           hello2: ${{github.event_name}}
-          hello1: ${{contains(fromJSON('["", "main"]'), github.base_ref)}}
+          runner_name: ${{contains(fromJSON('["", "main"]'), github.base_ref) && 'production' || github.base_ref }}
         run: |
           echo $hello2
-          echo $hello1
+          echo $runner_name
 
       # - name: Test env
       #   id: test
