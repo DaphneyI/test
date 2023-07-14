@@ -60,6 +60,7 @@ jobs:
           hello2: ${{github.event_name}}
           runner_name: ${{contains(fromJSON('["", "main"]'), github.base_ref) && 'production' || github.base_ref }}
           runner_sring: ${{ format('["self-hosted", "linux", "x64", {0}]', contains(fromJSON('["", "main"]'), github.base_ref) && 'production' || github.base_ref)}}
+          runner2: ${{format('["self-hosted", "linux", "x64", {0}]', $runner_name)}}
         run: |
           echo $hello2
           echo $runner_name
